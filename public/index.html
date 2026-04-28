@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filmovi</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <header>
+    <h1>Virtualna videoteka</h1>
+    <div id="cart-container">
+      <div id="cart-icon" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-counter">0</span>
+      </div>
+      <div id="cart-dropdown" class="cart-dropdown">
+        <h3>Košarica</h3>
+        <div id="cart-items"></div>
+        <div class="cart-footer">
+          <button id="confirm-rent" disabled>Potvrdi posudbu</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="side-nav" aria-label="Glavna navigacija">
+    <button class="dropdown-btn">Menu ▼</button>
+    <ul class="dropdown-content">
+      <li><a href="index.html">Početna</a></li>
+      <li><a href="slike.html">Galerija</a></li>
+      <li><a href="grafikon.html">Grafikon</a></li>
+    </ul>
+  </nav>
+
+  <div class="filter">
+    <label>Žanr:
+      <input type="text" id="genre-filter" placeholder="npr. Action" />
+    </label>
+
+    <label>Godina od:
+      <input type="number" id="year-min" min="1900" max="2025" />
+    </label>
+
+    <label>Godina do:
+      <input type="number" id="year-max" min="1900" max="2025" />
+    </label>
+
+    <label>Minimalna ocjena:
+      <input type="range" id="rating-min" min="0" max="10" step="0.1" value="0" />
+      <span class="range-value" id="rating-value">0</span>
+    </label>
+
+    <div id="sortiranje">
+      <label><input type="radio" name="sort-godina" value="asc"> Godina ↑</label>
+      <label><input type="radio" name="sort-godina" value="desc"> Godina ↓</label>
+    </div>
+    
+    <button id="filter-button">Filtriraj</button>
+  </div>
+
+  <table id="filmovi-tablica" border="1">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Genres</th>
+        <th>Duration (min)</th>
+        <th>Rating</th>
+        <th>Directors</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

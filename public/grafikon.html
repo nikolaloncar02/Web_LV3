@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Grafički prikaz filmskih podataka">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/grafikon.css">
+    <title>Filmski Grafikon</title>
+</head>
+<body>
+    <header>
+        <h1>Grafikoni i analiza podataka</h1>
+    </header>
+    
+    <nav class="side-nav" aria-label="Glavna navigacija">
+        <button class="dropdown-btn">Menu ▼</button>
+        <ul class="dropdown-content">
+            <li><a href="index.html">Početna</a></li>
+            <li><a href="slike.html">Galerija</a></li>
+            <li><a href="grafikon.html">Grafikon</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <h1>Filmski Grafikon</h1>
+        
+        <section class="container">
+            <section class="chart-container">
+                <h2>Distribucija filmova po žanrovima</h2>
+                
+                <section class="pie-chart">
+                    <section class="pie-segment drama" data-genre="Drama" data-count="5">
+                        <span class="segment-label">Drama</span>
+                    </section>
+                    <section class="pie-segment komedija" data-genre="Komedija" data-count="4">
+                        <span class="segment-label">Komedija</span>
+                    </section>
+                    <section class="pie-segment akcija" data-genre="Akcija" data-count="2">
+                        <span class="segment-label">Akcija</span>
+                    </section>
+                    <section class="pie-segment ostalo" data-genre="Ostalo" data-count="8">
+                        <span class="segment-label">Ostalo</span>
+                    </section>
+                </section>
+                
+                <section class="chart-legend">
+                    <ul>
+                        <li><span class="legend-color drama-color"></span>Drama (5 filmova)</li>
+                        <li><span class="legend-color komedija-color"></span>Komedija (4 filma)</li>
+                        <li><span class="legend-color akcija-color"></span>Akcija (2 filma)</li>
+                        <li><span class="legend-color ostalo-color"></span>Ostalo (8 filmova)</li>
+                    </ul>
+                </section>
+            </section>
+            
+            <aside class="chart-info">
+                <h3>Informacije o grafikonu</h3>
+                <p>Grafikon prikazuje distribuciju filmova po žanrovima iz naše baze podataka.</p>
+                <p>Ukupno je analizirano 19 filmova.</p>
+                <p>Dominantni žanrovi su Drama i Komedija.</p>
+                <p>Filmovi iz naše baze podataka dolaze uglavnom iz SAD-a i Italije.</p>
+            </aside>
+        </section>
+        
+        <section class="histogram-section">
+            <h2>Distribucija filmova po desetljećima</h2>
+            <section class="histogram-container">
+                <section class="histogram-bar" style="--bar-height: 0.1;">
+                    <section class="bar-label">1940-ih</section>
+                    <section class="bar-value">2</section>
+                </section>
+                <section class="histogram-bar" style="--bar-height: 0.05;">
+                    <section class="bar-label">1950-ih</section>
+                    <section class="bar-value">1</section>
+                </section>
+                <section class="histogram-bar" style="--bar-height: 0.15;">
+                    <section class="bar-label">1960-ih</section>
+                    <section class="bar-value">3</section>
+                </section>
+                <section class="histogram-bar" style="--bar-height: 0.2;">
+                    <section class="bar-label">1970-ih</section>
+                    <section class="bar-value">4</section>
+                </section>
+                <section class="histogram-bar" style="--bar-height: 0.25;">
+                    <section class="bar-label">1980-ih</section>
+                    <section class="bar-value">5</section>
+                </section>
+                <section class="histogram-bar" style="--bar-height: 0.2;">
+                    <section class="bar-label">1990-ih</section>
+                    <section class="bar-value">4</section>
+                </section>
+            </section>
+        </section>
+        
+        <section class="content">
+            <h2>Zaključak analize</h2>
+            <p>Analiza filmske baze podataka pokazuje raznolikost žanrova i godina produkcije. Većina filmova u našoj bazi pripada dramskom i komedijalnom žanru, s primjetnim brojem akcijskih filmova.</p>
+            <p>Zanimljivo je primijetiti kako se distribucija filmova mijenja kroz desetljeća, s najvećim brojem filmova iz 1980-ih godina.</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026. Web Programiranje. Sva prava pridržana.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>Galerija slika</title>
+  <!-- Ovdje stavi link na tvoj CSS, prilagodi putanju -->
+  <link rel="stylesheet" href="/style/style_slike.css">
+</head>
+<body>
+ 
+  <h1>Galerija slika</h1>
+ 
+<section class="galerija">
+    <% images.forEach(image => { %>
+      <figure class="galerija_slika">
+        <a href="#<%= image.id %>">
+          <img src="<%= image.url %>" alt="<%= image.title %>">
+        </a>
+        <figcaption><%= image.title %></figcaption>
+      </figure>
+
+      <section class="lightbox" id="<%= image.id %>">
+        <a href="#" class="close">×</a>
+        <section class="lightbox-content">
+          <img src="<%= image.url %>" alt="<%= image.title %>">
+          <p><%= image.title %></p>
+        </section>
+      </section>
+    <% }); %>
+  </section>
+ 
+</body>
+</html>

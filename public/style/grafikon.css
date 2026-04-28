@@ -1,0 +1,440 @@
+/* CSS varijable za fleksibilnost grafikona */
+:root {
+    /* Boje grafikona */
+    --color-drama: #3498db;
+    --color-komedija: #2ecc71;
+    --color-akcija: #e74c3c;
+    --color-ostalo: #f39c12;
+    
+    /* Dimenzije grafikona */
+    --pie-chart-size: 300px;
+    --pie-chart-inner-size: 0%;  /* 0% za pie chart, >0% za donut chart */
+    --pie-chart-border: 5px;
+    
+    /* Boje histograma */
+    --histogram-color-primary: #3498db;
+    --histogram-color-hover: #2980b9;
+    --histogram-height: 300px;
+    --histogram-width: 100%;
+    --histogram-bar-width: 60px;
+    --histogram-gap: 20px;
+    
+    /* Općenite boje */
+    --text-color: #333;
+    --background-color: #f4f4f4;
+    --border-color: #ddd;
+    --highlight-color: #007bff;
+}
+
+/* Kontejner grafikona */
+.chart-container {
+    width: 65%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Pie Chart - ispravljena implementacija s animacijom */
+.pie-chart {
+    position: relative;
+    width: var(--pie-chart-size);
+    height: var(--pie-chart-size);
+    border-radius: 50%;
+    margin: 30px auto;
+    animation: rotateChart 1.5s ease-out forwards;
+    background: conic-gradient(
+        var(--color-drama) 0deg 95deg,          /* Drama (5/19 ~ 26%) ~ 95° */
+        var(--color-komedija) 95deg 170deg,     /* Komedija (4/19 ~ 21%) ~ 75° */
+        var(--color-akcija) 170deg 208deg,      /* Akcija (2/19 ~ 10.5%) ~ 38° */
+        var(--color-ostalo) 208deg 360deg       /* Ostalo (8/19 ~ 42%) ~ 152° */
+    );
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animacija rotacije pie charta */
+@keyframes rotateChart {
+    from {
+        transform: rotate(-90deg) scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: rotate(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Hover efekt za cijeli pie chart */
+.pie-chart:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Donut Chart centar (ako želite) */
+.pie-chart::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--pie-chart-inner-size);
+    height: var(--pie-chart-inner-size);
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* Segmenti pie charta */
+.pie-segment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 0.3s ease-out, filter 0.3s ease;
+}
+
+/* Drama segment (5/19 ~ 26%) */
+.pie-segment.drama {
+    clip-path: polygon(50% 50%, 50% 0%, 95% 0%, 100% 25%);
+}
+
+/* Komedija segment (4/19 ~ 21%) */
+.pie-segment.komedija {
+    clip-path: polygon(50% 50%, 100% 25%, 95% 50%, 75% 75%);
+}
+
+/* Akcija segment (2/19 ~ 10.5%) */
+.pie-segment.akcija {
+    clip-path: polygon(50% 50%, 75% 75%, 50% 95%, 25% 75%);
+}
+
+/* Ostalo segment (8/19 ~ 42%) */
+.pie-segment.ostalo {
+    clip-path: polygon(50% 50%, 25% 75%, 0% 50%, 0% 0%, 50% 0%);
+}
+
+.pie-segment:hover {
+    transform: scale(1.05) translateY(-5px);
+    filter: brightness(1.1) drop-shadow(0 5px 10px rgba(0,0,0,0.25));
+    z-index: 5;
+}
+
+/* Segment labele s poboljšanim stilovima */
+.segment-label {
+    position: absolute;
+    display: none;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.95));
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    transform: translateY(0);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Pozicioniranje labela prema segmentu */
+.drama .segment-label {
+    top: 15%;
+    right: 15%;
+}
+
+.komedija .segment-label {
+    top: 45%;
+    right: 10%;
+}
+
+.akcija .segment-label {
+    bottom: 15%;
+    left: 45%;
+}
+
+.ostalo .segment-label {
+    top: 45%;
+    left: 10%;
+}
+
+.pie-segment:hover .segment-label {
+    display: block;
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+/* Dodatne informacije nakon hovera */
+.pie-segment::after {
+    content: attr(data-description);
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    padding: 5px 10px;
+    background-color: var(--text-color);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 15;
+    pointer-events: none;
+}
+
+.pie-segment:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* Chart Legend s animacijama */
+.chart-legend {
+    margin-top: 30px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-legend ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.chart-legend li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.chart-legend li:hover {
+    transform: translateX(5px);
+    background-color: rgba(0,0,0,0.05);
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+}
+
+.chart-legend li:hover .legend-color {
+    transform: scale(1.2);
+}
+
+.drama-color {
+    background: linear-gradient(135deg, var(--color-drama), #1a75bc);
+}
+
+.komedija-color {
+    background: linear-gradient(135deg, var(--color-komedija), #27ae60);
+}
+
+.akcija-color {
+    background: linear-gradient(135deg, var(--color-akcija), #c0392b);
+}
+
+.ostalo-color {
+    background: linear-gradient(135deg, var(--color-ostalo), #d35400);
+}
+
+/* Chart Info Aside */
+.chart-info {
+    width: 30%;
+    margin-left: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    opacity: 0;
+    animation: slideInRight 1s ease-out 0.5s forwards;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.chart-info h3 {
+    margin-top: 0;
+    border-bottom: 2px solid var(--highlight-color);
+    padding-bottom: 10px;
+}
+
+.chart-info p {
+    margin: 10px 0;
+}
+
+/* Histogram s animacijama */
+.histogram-section {
+    margin-top: 40px;
+    width: 100%;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.5s forwards;
+}
+
+.histogram-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: var(--histogram-height);
+    width: var(--histogram-width);
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.histogram-bar {
+    position: relative;
+    width: var(--histogram-bar-width);
+    height: calc(var(--bar-height) * var(--histogram-height));
+    background: linear-gradient(to top, var(--histogram-color-primary), #5dade2);
+    border-radius: 5px 5px 0 0;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    transform-origin: bottom;
+    animation: growBar 1.5s ease-out forwards;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+@keyframes growBar {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+}
+
+.histogram-bar:hover {
+    background: linear-gradient(to top, var(--histogram-color-hover), #3498db);
+    transform: scaleY(1.05);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.bar-label {
+    position: absolute;
+    bottom: -30px;
+    font-size: 14px;
+    color: var(--text-color);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.bar-value {
+    position: absolute;
+    top: -25px;
+    background: linear-gradient(135deg, var(--text-color), #555);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(5px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.histogram-bar:hover .bar-value {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responzivni dizajn za mobilne uređaje */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .chart-container, .chart-info {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .pie-chart {
+        width: calc(var(--pie-chart-size) * 0.8);
+        height: calc(var(--pie-chart-size) * 0.8);
+    }
+
+    .histogram-container {
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: var(--histogram-gap);
+        padding-bottom: 40px;
+    }
+
+    .histogram-bar {
+        min-width: var(--histogram-bar-width);
+    }
+
+    .chart-legend ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .histogram-section {
+        margin-top: 20px;
+        opacity: 1;
+        animation: none;
+    }
+    
+    .histogram-container {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+    
+    .histogram-bar {
+        width: 80%;
+        height: 40px;
+        margin: 10px 0;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 15px;
+        border-radius: 5px;
+    }
+    
+    .bar-label {
+        position: static;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .bar-value {
+        position: static;
+        background: none;
+        box-shadow: none;
+        opacity: 1;
+        transform: none;
+        padding: 0;
+    }
+    
+    @keyframes growBar {
+        from { transform: scaleX(0); }
+        to { transform: scaleX(1); }
+    }
+    
+    .histogram-bar {
+        transform-origin: left;
+        animation: growBar 1.5s ease-out forwards;
+    }
+}
